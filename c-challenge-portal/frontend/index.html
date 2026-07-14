@@ -1,0 +1,1107 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>C Challenge Portal</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Fira+Code:wght@400;500&display=swap" rel="stylesheet">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: 'Inter', sans-serif;
+            background: linear-gradient(135deg, #f0f9ff 0%, #ecfdf5 100%);
+            min-height: 100vh;
+            color: #1e293b;
+        }
+        .header {
+            background: #ffffff;
+            border-bottom: 1px solid #e2e8f0;
+            padding: 16px 24px;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+        }
+        .header-inner {
+            max-width: 900px;
+            margin: 0 auto;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+        .logo-section {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+        .logo-icon {
+            width: 40px; height: 40px;
+            background: linear-gradient(135deg, #00D4FF, #0099CC);
+            border-radius: 10px;
+            display: flex; align-items: center; justify-content: center;
+            color: white; font-weight: 800; font-size: 18px;
+            box-shadow: 0 4px 12px rgba(0,212,255,0.3);
+        }
+        .logo-section h1 { font-size: 20px; font-weight: 700; color: #0f172a; }
+        .logo-section p { font-size: 13px; color: #64748b; margin-top: 2px; }
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 24px;
+        }
+        .view-toggle {
+            display: flex;
+            background: #f1f5f9;
+            border-radius: 12px;
+            padding: 4px;
+            margin-bottom: 24px;
+            width: fit-content;
+        }
+        .view-toggle button {
+            padding: 8px 20px;
+            border: none;
+            border-radius: 10px;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            background: transparent;
+            color: #64748b;
+            transition: all 0.2s;
+        }
+        .view-toggle button.active {
+            background: #ffffff;
+            color: #0f172a;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+        }
+        .card {
+            background: #ffffff;
+            border-radius: 20px;
+            padding: 28px;
+            margin-bottom: 20px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.06);
+            border: 1px solid #f1f5f9;
+        }
+        .card-title {
+            font-size: 18px;
+            font-weight: 700;
+            color: #0f172a;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        .form-group { margin-bottom: 18px; }
+        .form-label {
+            display: block;
+            font-size: 14px;
+            font-weight: 600;
+            color: #334155;
+            margin-bottom: 8px;
+        }
+        .form-label span { color: #dc2626; }
+        .form-input, .form-textarea, .form-select {
+            width: 100%;
+            padding: 12px 16px;
+            border: 2px solid #e2e8f0;
+            border-radius: 12px;
+            font-size: 15px;
+            font-family: 'Inter', sans-serif;
+            transition: all 0.2s;
+            background: #f8fafc;
+        }
+        .form-input:focus, .form-textarea:focus, .form-select:focus {
+            outline: none;
+            border-color: #00D4FF;
+            background: #ffffff;
+            box-shadow: 0 0 0 4px rgba(0,212,255,0.1);
+        }
+        .form-textarea { resize: vertical; min-height: 100px; }
+        .form-select { cursor: pointer; }
+        .btn-primary {
+            padding: 14px 28px;
+            background: linear-gradient(135deg, #00D4FF, #0099CC);
+            color: white;
+            border: none;
+            border-radius: 12px;
+            font-size: 15px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.2s;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            box-shadow: 0 4px 16px rgba(0,212,255,0.3);
+        }
+        .btn-primary:hover { transform: translateY(-2px); box-shadow: 0 8px 24px rgba(0,212,255,0.4); }
+        .btn-success {
+            padding: 10px 20px;
+            background: linear-gradient(135deg, #10B981, #059669);
+            color: white;
+            border: none;
+            border-radius: 10px;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        .btn-success:hover { transform: translateY(-2px); box-shadow: 0 4px 12px rgba(16,185,129,0.3); }
+        .btn-outline {
+            padding: 8px 16px;
+            background: transparent;
+            border: 2px solid #e2e8f0;
+            border-radius: 10px;
+            font-size: 13px;
+            font-weight: 600;
+            color: #64748b;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        .btn-outline:hover { border-color: #00D4FF; color: #00D4FF; }
+        .btn-danger {
+            padding: 8px 16px;
+            background: #fef2f2;
+            color: #dc2626;
+            border: none;
+            border-radius: 10px;
+            font-size: 13px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        .btn-danger:hover { background: #fee2e2; }
+        .challenge-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            background: linear-gradient(135deg, #00D4FF20, #00D4FF10);
+            color: #0099CC;
+            padding: 6px 14px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 600;
+            margin-bottom: 16px;
+        }
+        .challenge-title {
+            font-size: 24px;
+            font-weight: 800;
+            color: #0f172a;
+            margin-bottom: 12px;
+            line-height: 1.3;
+        }
+        .challenge-desc {
+            color: #475569;
+            font-size: 15px;
+            line-height: 1.7;
+            margin-bottom: 16px;
+        }
+        .challenge-meta {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 12px;
+            padding-top: 16px;
+            border-top: 1px solid #f1f5f9;
+        }
+        .meta-item {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            font-size: 13px;
+            color: #64748b;
+        }
+        .difficulty-easy { background: #ecfdf5; color: #059669; padding: 4px 12px; border-radius: 20px; font-size: 12px; font-weight: 600; }
+        .difficulty-medium { background: #fffbeb; color: #d97706; padding: 4px 12px; border-radius: 20px; font-size: 12px; font-weight: 600; }
+        .difficulty-hard { background: #fef2f2; color: #dc2626; padding: 4px 12px; border-radius: 20px; font-size: 12px; font-weight: 600; }
+        .tabs {
+            display: flex;
+            gap: 8px;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+        }
+        .tab {
+            padding: 10px 20px;
+            border-radius: 12px;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            border: 2px solid #e2e8f0;
+            background: #ffffff;
+            color: #64748b;
+            transition: all 0.2s;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+        .tab:hover { border-color: #00D4FF; color: #00D4FF; }
+        .tab.active {
+            background: linear-gradient(135deg, #00D4FF, #0099CC);
+            color: #ffffff;
+            border-color: #00D4FF;
+            box-shadow: 0 4px 12px rgba(0,212,255,0.3);
+        }
+        .code-editor {
+            width: 100%;
+            min-height: 260px;
+            padding: 16px;
+            border: 2px solid #e2e8f0;
+            border-radius: 12px;
+            font-family: 'Fira Code', monospace;
+            font-size: 14px;
+            line-height: 1.7;
+            background: #0f172a;
+            color: #e2e8f0;
+            resize: vertical;
+            transition: all 0.2s;
+        }
+        .code-editor:focus {
+            outline: none;
+            border-color: #00D4FF;
+            box-shadow: 0 0 0 4px rgba(0,212,255,0.1);
+        }
+        .upload-zone {
+            border: 2px dashed #cbd5e1;
+            border-radius: 16px;
+            padding: 40px 24px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.2s;
+            background: #f8fafc;
+        }
+        .upload-zone:hover {
+            border-color: #00D4FF;
+            background: #f0f9ff;
+        }
+        .upload-zone.has-file {
+            border-color: #10B981;
+            background: #ecfdf5;
+        }
+        .upload-zone input { display: none; }
+        .upload-icon { width: 48px; height: 48px; margin: 0 auto 12px; color: #94a3b8; }
+        .upload-zone.has-file .upload-icon { color: #10B981; }
+        .upload-text { font-size: 15px; color: #475569; font-weight: 500; }
+        .upload-hint { font-size: 13px; color: #94a3b8; margin-top: 4px; }
+        .file-name { color: #059669; font-weight: 600; margin-top: 8px; }
+        .submit-btn {
+            width: 100%;
+            padding: 16px;
+            background: linear-gradient(135deg, #00D4FF, #0099CC);
+            color: #ffffff;
+            border: none;
+            border-radius: 14px;
+            font-size: 16px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.2s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            box-shadow: 0 4px 16px rgba(0,212,255,0.3);
+        }
+        .submit-btn:hover { transform: translateY(-2px); box-shadow: 0 8px 24px rgba(0,212,255,0.4); }
+        .overlay {
+            display: none;
+            position: fixed;
+            inset: 0;
+            background: rgba(0,0,0,0.5);
+            z-index: 1000;
+            align-items: center;
+            justify-content: center;
+            padding: 24px;
+        }
+        .overlay.show { display: flex; }
+        .overlay-card {
+            background: #ffffff;
+            border-radius: 24px;
+            padding: 40px;
+            max-width: 420px;
+            width: 100%;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.2);
+            animation: popIn 0.4s ease-out;
+        }
+        @keyframes popIn {
+            from { opacity: 0; transform: scale(0.8) translateY(20px); }
+            to { opacity: 1; transform: scale(1) translateY(0); }
+        }
+        .success-icon {
+            width: 80px; height: 80px;
+            background: linear-gradient(135deg, #10B981, #059669);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 24px;
+            box-shadow: 0 8px 24px rgba(16,185,129,0.3);
+        }
+        .success-icon svg { width: 40px; height: 40px; color: white; }
+        .overlay-title { font-size: 22px; font-weight: 800; color: #0f172a; margin-bottom: 8px; text-align: center; }
+        .overlay-text { color: #64748b; font-size: 15px; line-height: 1.6; margin-bottom: 24px; text-align: center; }
+        .overlay-btn {
+            width: 100%;
+            padding: 14px;
+            border: none;
+            border-radius: 12px;
+            font-size: 15px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        .login-lock {
+            width: 64px; height: 64px;
+            background: linear-gradient(135deg, #00D4FF, #0099CC);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 16px;
+            box-shadow: 0 8px 24px rgba(0,212,255,0.3);
+        }
+        .login-lock svg { width: 28px; height: 28px; color: white; }
+        .login-error {
+            background: #fef2f2;
+            color: #dc2626;
+            padding: 10px 16px;
+            border-radius: 10px;
+            font-size: 13px;
+            font-weight: 500;
+            margin-bottom: 16px;
+            display: none;
+        }
+        .login-error.show { display: block; }
+        .login-btn {
+            width: 100%;
+            padding: 14px;
+            background: linear-gradient(135deg, #00D4FF, #0099CC);
+            color: white;
+            border: none;
+            border-radius: 12px;
+            font-size: 15px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        .login-btn:hover { transform: translateY(-2px); box-shadow: 0 8px 24px rgba(0,212,255,0.3); }
+        .submission-item {
+            background: #ffffff;
+            border-radius: 16px;
+            padding: 20px;
+            margin-bottom: 12px;
+            border: 1px solid #f1f5f9;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.03);
+            transition: all 0.2s;
+        }
+        .submission-item:hover { border-color: #00D4FF40; box-shadow: 0 4px 16px rgba(0,212,255,0.08); }
+        .submission-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 12px; }
+        .student-info { display: flex; align-items: center; gap: 12px; }
+        .student-avatar {
+            width: 40px; height: 40px;
+            background: linear-gradient(135deg, #00D4FF, #0099CC);
+            border-radius: 50%;
+            display: flex; align-items: center; justify-content: center;
+            color: white; font-weight: 700; font-size: 14px;
+        }
+        .student-name { font-weight: 700; color: #0f172a; font-size: 15px; }
+        .student-roll { font-size: 13px; color: #64748b; }
+        .submission-time { font-size: 12px; color: #94a3b8; }
+        .type-badge {
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 11px;
+            font-weight: 600;
+        }
+        .type-code { background: #eff6ff; color: #2563eb; }
+        .type-image { background: #f3e8ff; color: #7c3aed; }
+        .type-file { background: #fff7ed; color: #ea580c; }
+        .type-text { background: #f0fdf4; color: #16a34a; }
+        .submission-content {
+            background: #f8fafc;
+            border-radius: 12px;
+            padding: 16px;
+            margin-top: 12px;
+        }
+        .code-preview {
+            font-family: 'Fira Code', monospace;
+            font-size: 13px;
+            line-height: 1.6;
+            color: #334155;
+            white-space: pre-wrap;
+            overflow-x: auto;
+            max-height: 200px;
+            overflow-y: auto;
+        }
+        .image-preview { max-width: 100%; max-height: 300px; border-radius: 8px; cursor: pointer; }
+        .file-download {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 10px 20px;
+            background: linear-gradient(135deg, #00D4FF, #0099CC);
+            color: white;
+            border-radius: 10px;
+            text-decoration: none;
+            font-size: 14px;
+            font-weight: 600;
+            transition: all 0.2s;
+        }
+        .file-download:hover { transform: translateY(-2px); box-shadow: 0 4px 12px rgba(0,212,255,0.3); }
+        .grade-section {
+            margin-top: 16px;
+            padding-top: 16px;
+            border-top: 1px solid #f1f5f9;
+            display: flex;
+            gap: 12px;
+            align-items: flex-start;
+        }
+        .grade-input {
+            width: 80px;
+            padding: 8px 12px;
+            border: 2px solid #e2e8f0;
+            border-radius: 10px;
+            font-size: 14px;
+            text-align: center;
+            font-weight: 700;
+        }
+        .grade-input:focus { outline: none; border-color: #10B981; }
+        .feedback-input {
+            flex: 1;
+            padding: 8px 12px;
+            border: 2px solid #e2e8f0;
+            border-radius: 10px;
+            font-size: 14px;
+            font-family: 'Inter', sans-serif;
+            resize: vertical;
+            min-height: 40px;
+        }
+        .feedback-input:focus { outline: none; border-color: #10B981; }
+        .empty-state { text-align: center; padding: 48px 24px; }
+        .empty-state svg { width: 64px; height: 64px; color: #cbd5e1; margin-bottom: 16px; }
+        .empty-state h3 { font-size: 18px; font-weight: 700; color: #475569; margin-bottom: 8px; }
+        .empty-state p { color: #94a3b8; font-size: 14px; }
+        .faculty-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            background: linear-gradient(135deg, #00D4FF20, #00D4FF10);
+            color: #0099CC;
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 11px;
+            font-weight: 600;
+            margin-left: 8px;
+        }
+        .logout-btn {
+            padding: 6px 14px;
+            background: #fef2f2;
+            color: #dc2626;
+            border: none;
+            border-radius: 8px;
+            font-size: 12px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s;
+            display: flex;
+            align-items: center;
+            gap: 4px;
+        }
+        .logout-btn:hover { background: #fee2e2; }
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+            gap: 16px;
+            margin-bottom: 24px;
+        }
+        .stat-card {
+            background: #ffffff;
+            border-radius: 16px;
+            padding: 20px;
+            border-left: 4px solid #00D4FF;
+            box-shadow: 0 2px 12px rgba(0,0,0,0.04);
+        }
+        .stat-label { font-size: 13px; color: #64748b; font-weight: 500; }
+        .stat-value { font-size: 28px; font-weight: 800; color: #0f172a; margin-top: 4px; }
+        .test-case-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr auto;
+            gap: 12px;
+            margin-bottom: 12px;
+            align-items: center;
+        }
+        .remove-btn {
+            padding: 8px;
+            background: #fef2f2;
+            color: #dc2626;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        .remove-btn:hover { background: #fee2e2; }
+        .spinner {
+            width: 20px; height: 20px;
+            border: 2px solid #ffffff;
+            border-top-color: transparent;
+            border-radius: 50%;
+            animation: spin 0.8s linear infinite;
+            display: inline-block;
+        }
+        @keyframes spin { to { transform: rotate(360deg); } }
+        @media (max-width: 640px) {
+            .container { padding: 16px; }
+            .card { padding: 20px; border-radius: 16px; }
+            .challenge-title { font-size: 20px; }
+            .tabs { gap: 6px; }
+            .tab { padding: 8px 14px; font-size: 13px; }
+            .grade-section { flex-direction: column; }
+            .grade-input { width: 100%; }
+            .submission-header { flex-direction: column; align-items: flex-start; gap: 8px; }
+            .test-case-row { grid-template-columns: 1fr; }
+            .stats-grid { grid-template-columns: repeat(2, 1fr); }
+        }
+        ::-webkit-scrollbar { width: 6px; }
+        ::-webkit-scrollbar-track { background: transparent; }
+        ::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 3px; }
+        ::-webkit-scrollbar-thumb:hover { background: #94a3b8; }
+    </style>
+</head>
+<body>
+    <header class="header">
+        <div class="header-inner">
+            <div class="logo-section">
+                <div class="logo-icon">C</div>
+                <div>
+                    <h1>C Challenge Portal</h1>
+                    <p>Submit your C programming assignments</p>
+                </div>
+            </div>
+            <div id="connectionStatus" style="font-size: 12px; color: #94a3b8;">Checking connection...</div>
+        </div>
+    </header>
+
+    <div class="container">
+        <div class="view-toggle" id="viewToggle">
+            <button class="active" onclick="showView('student')">Student</button>
+            <button onclick="showFacultyLogin()">Faculty</button>
+        </div>
+
+        <div id="studentView">
+            <div id="challengeDisplay">
+                <div class="empty-state">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
+                    <h3>Loading Challenge...</h3>
+                    <p>Please wait while we fetch the latest challenge.</p>
+                </div>
+            </div>
+
+            <div id="submissionFormSection" style="display: none;">
+                <div class="card">
+                    <div class="card-title">
+                        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
+                        Submit Your Work
+                    </div>
+                    <form id="submissionForm">
+                        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 16px;">
+                            <div class="form-group">
+                                <label class="form-label">Full Name <span>*</span></label>
+                                <input type="text" class="form-input" id="studentName" placeholder="Enter your full name" required>
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label">Roll Number <span>*</span></label>
+                                <input type="text" class="form-input" id="studentRoll" placeholder="e.g., 21B81A05A0" required>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">Email <span>*</span></label>
+                            <input type="email" class="form-input" id="studentEmail" placeholder="your.email@college.com" required>
+                        </div>
+                        <label class="form-label">Submission Type <span>*</span></label>
+                        <div class="tabs">
+                            <div class="tab active" onclick="setType('code')">C Code</div>
+                            <div class="tab" onclick="setType('text')">Text</div>
+                            <div class="tab" onclick="setType('image')">Photo</div>
+                            <div class="tab" onclick="setType('pdf')">PDF</div>
+                            <div class="tab" onclick="setType('document')">Word</div>
+                        </div>
+                        <div id="codeBox">
+                            <label class="form-label">Your C Code <span>*</span></label>
+                            <textarea class="code-editor" id="codeContent" placeholder="#include &lt;stdio.h&gt;
+
+int main() {
+    // Write your C code here
+    
+    return 0;
+}"></textarea>
+                        </div>
+                        <div id="textBox" style="display: none;">
+                            <label class="form-label">Your Answer <span>*</span></label>
+                            <textarea class="form-textarea" id="textContent" rows="6" placeholder="Type your answer here..."></textarea>
+                        </div>
+                        <div id="fileBox" style="display: none;">
+                            <label class="form-label">Upload File <span>*</span></label>
+                            <label class="upload-zone" id="uploadZone">
+                                <input type="file" id="fileUpload" onchange="handleFile(this)">
+                                <svg class="upload-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+                                <p class="upload-text">Click to upload or drag &amp; drop</p>
+                                <p class="upload-hint" id="uploadHint">Images, PDFs, Word docs up to 10MB</p>
+                                <p class="file-name" id="fileName"></p>
+                            </label>
+                        </div>
+                        <button type="submit" class="submit-btn" style="margin-top: 20px;" id="submitBtn">
+                            Submit Work
+                        </button>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+        <div id="facultyView" style="display: none;">
+            <div class="stats-grid">
+                <div class="stat-card" style="border-left-color: #00D4FF;">
+                    <div class="stat-label">Total Submissions</div>
+                    <div class="stat-value" id="statTotal">0</div>
+                </div>
+                <div class="stat-card" style="border-left-color: #10B981;">
+                    <div class="stat-label">Graded</div>
+                    <div class="stat-value" id="statGraded">0</div>
+                </div>
+                <div class="stat-card" style="border-left-color: #F59E0B;">
+                    <div class="stat-label">Pending</div>
+                    <div class="stat-value" id="statPending">0</div>
+                </div>
+            </div>
+
+            <div class="card">
+                <div class="card-title" style="justify-content: space-between;">
+                    <span style="display: flex; align-items: center; gap: 10px;">
+                        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
+                        Create / Edit Challenge
+                        <span class="faculty-badge">Faculty Only</span>
+                    </span>
+                    <button class="logout-btn" onclick="facultyLogout()">Logout</button>
+                </div>
+                <form id="challengeForm" onsubmit="saveChallenge(event)">
+                    <div class="form-group">
+                        <label class="form-label">Challenge Title <span>*</span></label>
+                        <input type="text" class="form-input" id="chalTitle" placeholder="e.g., Write a C Program to Implement Bubble Sort" required>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Description <span>*</span></label>
+                        <textarea class="form-textarea" id="chalDesc" rows="3" placeholder="Brief description..." required></textarea>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Instructions <span>*</span></label>
+                        <textarea class="form-textarea" id="chalInst" rows="4" placeholder="Step-by-step instructions..." required></textarea>
+                    </div>
+                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 16px;">
+                        <div class="form-group">
+                            <label class="form-label">Difficulty</label>
+                            <select class="form-select" id="chalDiff">
+                                <option value="Easy">Easy</option>
+                                <option value="Medium">Medium</option>
+                                <option value="Hard">Hard</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">Deadline <span>*</span></label>
+                            <input type="datetime-local" class="form-input" id="chalDeadline" required>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Faculty Name</label>
+                        <input type="text" class="form-input" id="chalFaculty" placeholder="Your name">
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Test Cases (Optional)</label>
+                        <div id="testCases"></div>
+                        <button type="button" class="btn-outline" onclick="addTestCase()" style="margin-top: 8px;">+ Add Test Case</button>
+                    </div>
+                    <div style="display: flex; gap: 12px;">
+                        <button type="submit" class="btn-primary" id="saveChalBtn">Save Challenge</button>
+                        <button type="button" class="btn-danger" onclick="deleteChallenge()">Delete Challenge</button>
+                    </div>
+                </form>
+            </div>
+
+            <div class="card">
+                <div class="card-title" style="justify-content: space-between;">
+                    <span>Student Submissions</span>
+                    <button class="btn-outline" onclick="downloadAll()">Download All</button>
+                </div>
+                <div id="submissionsList">
+                    <div class="empty-state">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+                        <h3>No submissions yet</h3>
+                        <p>Student submissions will appear here</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="overlay" id="successOverlay">
+        <div class="overlay-card">
+            <div class="success-icon">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg>
+            </div>
+            <div class="overlay-title">Submitted Successfully!</div>
+            <div class="overlay-text">Your work has been submitted. Faculty will review it soon.</div>
+            <button class="overlay-btn" style="background: linear-gradient(135deg, #10B981, #059669); color: white;" onclick="closeSuccess()">Submit Another</button>
+        </div>
+    </div>
+
+    <div class="overlay" id="challengeSavedOverlay">
+        <div class="overlay-card">
+            <div class="success-icon" style="background: linear-gradient(135deg, #00D4FF, #0099CC);">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg>
+            </div>
+            <div class="overlay-title">Challenge Saved!</div>
+            <div class="overlay-text">Students can now see and submit their work for this challenge.</div>
+            <button class="overlay-btn" style="background: linear-gradient(135deg, #00D4FF, #0099CC); color: white;" onclick="closeChallengeSaved()">Great!</button>
+        </div>
+    </div>
+
+    <div class="overlay" id="loginOverlay">
+        <div class="overlay-card">
+            <div class="login-lock">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+            </div>
+            <div class="overlay-title">Faculty Login</div>
+            <div class="overlay-text">Enter credentials to access faculty dashboard</div>
+            <div class="login-error" id="loginError">Invalid username or password</div>
+            <form onsubmit="handleLogin(event)">
+                <div class="form-group">
+                    <label class="form-label">Username</label>
+                    <input type="text" class="form-input" id="loginUser" placeholder="Enter username" required>
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Password</label>
+                    <input type="password" class="form-input" id="loginPass" placeholder="Enter password" required>
+                </div>
+                <button type="submit" class="login-btn">Login</button>
+            </form>
+            <button onclick="closeLogin()" style="width: 100%; margin-top: 12px; padding: 10px; background: transparent; border: none; color: #94a3b8; font-size: 13px; cursor: pointer; font-weight: 500;">Close</button>
+        </div>
+    </div>
+    <script>
+        const API_URL = 'http://localhost:5000/api';
+        const FACULTY_CREDS = { username: "faculty", password: "cchallenge2026" };
+        let isFaculty = false;
+        let currentType = 'code';
+        let selectedFile = null;
+        let testCases = [];
+        let currentChallengeId = null;
+
+        document.addEventListener('DOMContentLoaded', () => {
+            checkBackendConnection();
+            loadChallenge();
+            if (localStorage.getItem('facultySession') === 'active') isFaculty = true;
+        });
+
+        async function checkBackendConnection() {
+            const statusEl = document.getElementById('connectionStatus');
+            try {
+                const res = await fetch(API_URL + '/challenge', { method: 'GET' });
+                if (res.ok) {
+                    statusEl.textContent = 'Connected to MongoDB';
+                    statusEl.style.color = '#10B981';
+                } else {
+                    statusEl.textContent = 'Backend connected, DB issue';
+                }
+            } catch (err) {
+                statusEl.textContent = 'Backend offline (localhost:5000)';
+                statusEl.style.color = '#dc2626';
+            }
+        }
+
+        function showView(view) {
+            document.getElementById('studentView').style.display = view === 'student' ? 'block' : 'none';
+            document.getElementById('facultyView').style.display = view === 'faculty' ? 'block' : 'none';
+            document.querySelectorAll('.view-toggle button').forEach((b, i) => {
+                b.classList.toggle('active', (view === 'student' && i === 0) || (view === 'faculty' && i === 1));
+            });
+            if (view === 'faculty') {
+                loadSubmissions();
+                loadChallengeIntoForm();
+                updateStats();
+            }
+        }
+
+        function showFacultyLogin() {
+            if (isFaculty) { showView('faculty'); return; }
+            document.getElementById('loginOverlay').classList.add('show');
+            document.getElementById('loginError').classList.remove('show');
+            document.getElementById('loginUser').value = '';
+            document.getElementById('loginPass').value = '';
+            setTimeout(() => document.getElementById('loginUser').focus(), 100);
+        }
+
+        function closeLogin() {
+            document.getElementById('loginOverlay').classList.remove('show');
+        }
+
+        function handleLogin(e) {
+            e.preventDefault();
+            const u = document.getElementById('loginUser').value.trim();
+            const p = document.getElementById('loginPass').value;
+            if (u === FACULTY_CREDS.username && p === FACULTY_CREDS.password) {
+                isFaculty = true;
+                localStorage.setItem('facultySession', 'active');
+                closeLogin();
+                showView('faculty');
+            } else {
+                document.getElementById('loginError').classList.add('show');
+                document.getElementById('loginPass').value = '';
+            }
+        }
+
+        function facultyLogout() {
+            isFaculty = false;
+            localStorage.removeItem('facultySession');
+            showView('student');
+        }
+
+        async function loadChallenge() {
+            const display = document.getElementById('challengeDisplay');
+            const formSection = document.getElementById('submissionFormSection');
+            try {
+                const res = await fetch(API_URL + '/challenge');
+                const chal = await res.json();
+                if (!chal || !chal._id) {
+                    display.innerHTML = '<div class="empty-state"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg><h3>No Active Challenge</h3><p>Please check back later for new challenges.</p></div>';
+                    formSection.style.display = 'none';
+                    return;
+                }
+                currentChallengeId = chal._id;
+                const diffClass = 'difficulty-' + chal.difficulty.toLowerCase();
+                let testCasesHtml = '';
+                if (chal.testCases && chal.testCases.length > 0) {
+                    testCasesHtml = '<div style="background:#f8fafc;border-radius:12px;padding:16px;margin-top:16px;"><p style="font-weight:600;color:#334155;margin-bottom:12px;font-size:14px;">Test Cases:</p><div style="display:grid;gap:8px;">' + chal.testCases.map((tc, i) => '<div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;background:white;padding:12px;border-radius:8px;"><div><p style="font-size:11px;color:#94a3b8;text-transform:uppercase;font-weight:600;margin-bottom:4px;">Input ' + (i+1) + '</p><code style="font-family:monospace;font-size:13px;color:#334155;">' + escapeHtml(tc.input || 'N/A') + '</code></div><div><p style="font-size:11px;color:#94a3b8;text-transform:uppercase;font-weight:600;margin-bottom:4px;">Expected ' + (i+1) + '</p><code style="font-family:monospace;font-size:13px;color:#334155;">' + escapeHtml(tc.expected || 'N/A') + '</code></div></div>').join('') + '</div></div>';
+                }
+                display.innerHTML = '<div class="card"><div class="challenge-badge"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/></svg>Active Challenge</div><h2 class="challenge-title">' + escapeHtml(chal.title) + '</h2><p class="challenge-desc">' + escapeHtml(chal.description) + '</p><div style="background:#f8fafc;border-radius:12px;padding:16px;margin-bottom:16px;"><p style="font-weight:600;color:#334155;margin-bottom:8px;font-size:14px;">Instructions:</p><p style="color:#475569;font-size:14px;line-height:1.7;white-space:pre-line;">' + escapeHtml(chal.instructions) + '</p></div>' + testCasesHtml + '<div class="challenge-meta"><span class="' + diffClass + '">' + chal.difficulty + '</span><span class="meta-item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg>' + (chal.deadline ? new Date(chal.deadline).toLocaleString('en-IN') : 'No deadline') + '</span><span class="meta-item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>' + escapeHtml(chal.faculty || 'Faculty') + '</span></div></div>';
+                formSection.style.display = 'block';
+            } catch (err) {
+                display.innerHTML = '<div class="empty-state"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg><h3>Connection Error</h3><p>Could not connect to backend. Please make sure the server is running.</p></div>';
+                formSection.style.display = 'none';
+            }
+        }
+
+        async function loadChallengeIntoForm() {
+            try {
+                const res = await fetch(API_URL + '/challenge');
+                const chal = await res.json();
+                if (chal && chal._id) {
+                    currentChallengeId = chal._id;
+                    document.getElementById('chalTitle').value = chal.title || '';
+                    document.getElementById('chalDesc').value = chal.description || '';
+                    document.getElementById('chalInst').value = chal.instructions || '';
+                    document.getElementById('chalDiff').value = chal.difficulty || 'Easy';
+                    document.getElementById('chalDeadline').value = chal.deadline ? new Date(chal.deadline).toISOString().slice(0, 16) : '';
+                    document.getElementById('chalFaculty').value = chal.faculty || '';
+                    testCases = chal.testCases || [];
+                    renderTestCases();
+                }
+            } catch (err) { console.error('Error loading challenge into form:', err); }
+        }
+
+        async function saveChallenge(e) {
+            e.preventDefault();
+            const btn = document.getElementById('saveChalBtn');
+            const originalText = btn.innerHTML;
+            btn.innerHTML = '<span class="spinner"></span> Saving...';
+            btn.disabled = true;
+            const challenge = {
+                title: document.getElementById('chalTitle').value,
+                description: document.getElementById('chalDesc').value,
+                instructions: document.getElementById('chalInst').value,
+                difficulty: document.getElementById('chalDiff').value,
+                deadline: document.getElementById('chalDeadline').value,
+                faculty: document.getElementById('chalFaculty').value,
+                testCases: testCases
+            };
+            try {
+                const res = await fetch(API_URL + '/challenge', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(challenge)
+                });
+                const data = await res.json();
+                if (data.success) {
+                    document.getElementById('challengeSavedOverlay').classList.add('show');
+                    loadChallenge();
+                }
+            } catch (err) { alert('Error saving challenge: ' + err.message); }
+            finally {
+                btn.innerHTML = originalText;
+                btn.disabled = false;
+            }
+        }
+
+        function closeChallengeSaved() {
+            document.getElementById('challengeSavedOverlay').classList.remove('show');
+        }
+
+        async function deleteChallenge() {
+            if (!confirm('Are you sure you want to delete this challenge?')) return;
+            if (!currentChallengeId) {
+                document.getElementById('challengeForm').reset();
+                testCases = [];
+                renderTestCases();
+                return;
+            }
+            try {
+                await fetch(API_URL + '/challenge/' + currentChallengeId, { method: 'DELETE' });
+                document.getElementById('challengeForm').reset();
+                testCases = [];
+                renderTestCases();
+                loadChallenge();
+            } catch (err) { alert('Error deleting challenge: ' + err.message); }
+        }
+
+        function addTestCase() {
+            testCases.push({ input: '', expected: '' });
+            renderTestCases();
+        }
+
+        function renderTestCases() {
+            const container = document.getElementById('testCases');
+            container.innerHTML = testCases.map((tc, i) => '<div class="test-case-row"><input type="text" class="form-input" placeholder="Input" value="' + (tc.input || '') + '" onchange="testCases[' + i + '].input = this.value"><input type="text" class="form-input" placeholder="Expected Output" value="' + (tc.expected || '') + '" onchange="testCases[' + i + '].expected = this.value"><button type="button" class="remove-btn" onclick="testCases.splice(' + i + ', 1); renderTestCases();">x</button></div>').join('');
+        }
+
+        function setType(type) {
+            currentType = type;
+            document.querySelectorAll('#submissionForm .tabs .tab').forEach((t, i) => {
+                t.classList.toggle('active', (type === 'code' && i === 0) || (type === 'text' && i === 1) || (type === 'image' && i === 2) || (type === 'pdf' && i === 3) || (type === 'document' && i === 4));
+            });
+            document.getElementById('codeBox').style.display = type === 'code' ? 'block' : 'none';
+            document.getElementById('textBox').style.display = type === 'text' ? 'block' : 'none';
+            document.getElementById('fileBox').style.display = (type === 'image' || type === 'pdf' || type === 'document') ? 'block' : 'none';
+            if (type !== 'image' && type !== 'pdf' && type !== 'document') selectedFile = null;
+        }
+
+        function handleFile(input) {
+            if (input.files && input.files[0]) {
+                selectedFile = input.files[0];
+                document.getElementById('uploadZone').classList.add('has-file');
+                document.getElementById('fileName').textContent = selectedFile.name;
+            }
+        }
+        document.getElementById('submissionForm')?.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const btn = document.getElementById('submitBtn');
+            const originalText = btn.innerHTML;
+            btn.innerHTML = '<span class="spinner"></span> Submitting...';
+            btn.disabled = true;
+            let fileData = null;
+            let fileName = null;
+            if ((currentType === 'image' || currentType === 'pdf' || currentType === 'document') && selectedFile) {
+                try {
+                    const formData = new FormData();
+                    formData.append('file', selectedFile);
+                    const uploadRes = await fetch(API_URL + '/upload', { method: 'POST', body: formData });
+                    const uploadData = await uploadRes.json();
+                    if (uploadData.success) { fileData = uploadData.fileData; fileName = uploadData.fileName; }
+                } catch (err) {
+                    alert('File upload failed: ' + err.message);
+                    btn.innerHTML = originalText; btn.disabled = false; return;
+                }
+            }
+            const submission = {
+                name: document.getElementById('studentName').value,
+                roll: document.getElementById('studentRoll').value,
+                email: document.getElementById('studentEmail').value,
+                type: currentType,
+                content: currentType === 'code' ? document.getElementById('codeContent').value : currentType === 'text' ? document.getElementById('textContent').value : fileName || selectedFile?.name || '',
+                fileData: fileData,
+                fileName: fileName,
+                challengeId: currentChallengeId
+            };
+            try {
+                const res = await fetch(API_URL + '/submissions', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(submission)
+                });
+                const data = await res.json();
+                if (data.success) {
+                    document.getElementById('successOverlay').classList.add('show');
+                    document.getElementById('submissionForm').reset();
+                    setType('code');
+                    document.getElementById('uploadZone').classList.remove('has-file');
+                    document.getElementById('fileName').textContent = '';
+                    selectedFile = null;
+                }
+            } catch (err) { alert('Submission failed: ' + err.message); }
+            finally { btn.innerHTML = originalText; btn.disabled = false; }
+        });
+
+        function closeSuccess() {
+            document.getElementById('successOverlay').classList.remove('show');
+            document.getElementById('submissionForm').reset();
+            setType('code');
+        }
+
+        async function loadSubmissions() {
+            const list = document.getElementById('submissionsList');
+            try {
+                const res = await fetch(API_URL + '/submissions');
+                const submissions = await res.json();
+                if (submissions.length === 0) {
+                    list.innerHTML = '<div class="empty-state"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg><h3>No submissions yet</h3><p>Student submissions will appear here</p></div>';
+                    return;
+                }
+                list.innerHTML = submissions.map((sub) => {
+                    let contentHtml = '';
+                    if (sub.type === 'code') contentHtml = '<pre class="code-preview">' + escapeHtml(sub.content) + '</pre>';
+                    else if (sub.type === 'text') contentHtml = '<p>' + escapeHtml(sub.content) + '</p>';
+                    else if (sub.fileData) {
+                        if (sub.type === 'image') contentHtml = '<img src="' + sub.fileData + '" class="image-preview" alt="' + sub.fileName + '" onclick="window.open(this.src)">';
+                        else contentHtml = '<a href="' + sub.fileData + '" download="' + sub.fileName + '" class="file-download">Download ' + escapeHtml(sub.fileName || 'File') + '</a>';
+                    } else contentHtml = '<p>File: ' + escapeHtml(sub.content) + '</p>';
+                    return '<div class="submission-item"><div class="submission-header"><div class="student-info"><div class="student-avatar">' + sub.name.charAt(0).toUpperCase() + '</div><div><div class="student-name">' + escapeHtml(sub.name) + '</div><div class="student-roll">' + escapeHtml(sub.roll) + '</div></div></div><div style="display:flex;gap:12px;align-items:center;"><span class="type-badge type-' + sub.type + '">' + sub.type.toUpperCase() + '</span><span class="submission-time">' + new Date(sub.timestamp).toLocaleString('en-IN') + '</span></div></div><div class="submission-content">' + contentHtml + '</div><div class="grade-section"><input type="number" class="grade-input" placeholder="Grade" value="' + (sub.grade || '') + '" onchange="updateGrade(\'' + sub._id + '\', this.value)"><textarea class="feedback-input" placeholder="Feedback..." onchange="updateFeedback(\'' + sub._id + '\', this.value)">' + (sub.feedback || '') + '</textarea></div></div>';
+                }).join('');
+            } catch (err) {
+                list.innerHTML = '<div class="empty-state"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg><h3>Connection Error</h3><p>Could not load submissions.</p></div>';
+            }
+        }
+
+        async function updateGrade(id, grade) {
+            try {
+                await fetch(API_URL + '/submissions/' + id, {
+                    method: 'PUT',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ grade: grade, graded: true })
+                });
+                updateStats();
+            } catch (err) { console.error('Error updating grade:', err); }
+        }
+
+        async function updateFeedback(id, feedback) {
+            try {
+                await fetch(API_URL + '/submissions/' + id, {
+                    method: 'PUT',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ feedback: feedback })
+                });
+            } catch (err) { console.error('Error updating feedback:', err); }
+        }
+
+        async function updateStats() {
+            try {
+                const res = await fetch(API_URL + '/submissions');
+                const submissions = await res.json();
+                document.getElementById('statTotal').textContent = submissions.length;
+                document.getElementById('statGraded').textContent = submissions.filter(s => s.graded).length;
+                document.getElementById('statPending').textContent = submissions.filter(s => !s.graded).length;
+            } catch (err) { console.error('Error updating stats:', err); }
+        }
+
+        function downloadAll() {
+            window.open(API_URL + '/submissions/download');
+        }
+
+        function escapeHtml(text) {
+            if (!text) return '';
+            const map = { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#039;' };
+            return text.replace(/[&<>"']/g, m => map[m]);
+        }
+    </script>
+</body>
+</html>
